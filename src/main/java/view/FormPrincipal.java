@@ -31,8 +31,15 @@ public class FormPrincipal extends JFrame {
         JMenu menuUsuarios = new JMenu("Usuários");
         menuUsuarios.setForeground(Color.WHITE);
         menuUsuarios.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
         JMenuItem itemGerenciar = new JMenuItem("Gerenciar Usuários");
-        itemGerenciar.addActionListener(e -> new FormUsuarios().setVisible(true));
+
+        // --- ALTERAÇÃO AQUI: Apontando para a nova tela de listagem ---
+        itemGerenciar.addActionListener(e -> {
+            FormListarUsuarios telaLista = new FormListarUsuarios();
+            telaLista.setVisible(true);
+        });
+
         menuUsuarios.add(itemGerenciar);
         menuBar.add(menuUsuarios);
 
