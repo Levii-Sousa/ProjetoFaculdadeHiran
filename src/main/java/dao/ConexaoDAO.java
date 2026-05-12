@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 // Classe responsável pela conexão com o banco e operações de usuário
@@ -32,12 +34,13 @@ public class ConexaoDAO {
 
     // Cadastra um novo usuário no banco de dados
     public void cadastrarUsuario(UsuarioDTO objUsuarioDTO) {
-        String sql = "INSERT INTO tb_usuarios (login, senha) VALUES (?, ?)";
+        String sql = "INSERT INTO tb_usuarios (nome, login, senha) VALUES (?, ?, ?)";
         try {
             Connection conn = getConnection();
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, objUsuarioDTO.getNome_usuario());
-            pstm.setString(2, objUsuarioDTO.getSenha_usuario());
+            pstm.setString(2, objUsuarioDTO.getNome_usuario());
+            pstm.setString(3, objUsuarioDTO.getSenha_usuario());
             pstm.execute();
             pstm.close();
             conn.close();
@@ -65,5 +68,29 @@ public class ConexaoDAO {
             JOptionPane.showMessageDialog(null, "Erro na autenticação: " + erro.getMessage());
             return false;
         }
+    }
+
+    // Lista todos os usuários do banco de dados
+    public List<UsuarioDTO> listarUsuarios() {
+        List<UsuarioDTO> lista = new ArrayList<>();
+        String sql = "SELECT * FROM tb_usuarios";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                UsuarioDTO obj = new UsuarioDTO();
+                obj.setId_usuario(rs.getInt("usuario_id"));
+                obj.setNome_usuario(rs.getString("login"));
+                obj.setSenha_usuario(rs.getString("senha"));
+                lista.add(obj);
+            }
+            rs.close();
+            pstm.close();
+            conn.close();
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar: " + erro.getMessage());
+        }
+        return lista;
     }
 }
