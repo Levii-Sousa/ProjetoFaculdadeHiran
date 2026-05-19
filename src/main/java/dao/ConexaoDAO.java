@@ -93,4 +93,39 @@ public class ConexaoDAO {
         }
         return lista;
     }
+
+    // Edita um usuário existente no banco de dados
+    public void editarUsuario(UsuarioDTO objUsuarioDTO) {
+        String sql = "UPDATE tb_usuarios SET login = ?, nome = ?, senha = ? WHERE usuario_id = ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, objUsuarioDTO.getNome_usuario());
+            pstm.setString(2, objUsuarioDTO.getNome_usuario());
+            pstm.setString(3, objUsuarioDTO.getSenha_usuario());
+            pstm.setInt(4, objUsuarioDTO.getId_usuario());
+            pstm.execute();
+            pstm.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Usuário atualizado com sucesso!");
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao editar: " + erro.getMessage());
+        }
+    }
+
+    // Exclui um usuário do banco de dados pelo ID
+    public void excluirUsuario(int id) {
+        String sql = "DELETE FROM tb_usuarios WHERE usuario_id = ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            pstm.execute();
+            pstm.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso!");
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + erro.getMessage());
+        }
+    }
 }
