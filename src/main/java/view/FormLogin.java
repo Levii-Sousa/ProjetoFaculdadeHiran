@@ -1,4 +1,4 @@
-package view;
+ package view;
 
 import dao.ConexaoDAO;
 import model.UsuarioDTO;
@@ -26,7 +26,7 @@ public class FormLogin extends JFrame {
     // Configurações básicas da janela
     private void configurarJanela() {
         setTitle("Acesso ao Sistema - Levi Software");
-        setSize(420, 320);
+        setSize(800, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
